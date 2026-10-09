@@ -108,8 +108,10 @@ Require human review for consequential decisions.
    the corpus should state physiotherapy eligibility more explicitly.
 2. Measure uncached latency and per-query cost under representative live
    traffic; current headline timings are cache-backed.
-3. Run the committed GitHub Actions workflow and capture the required remote
-   green build. No remote Actions run or screenshot is claimed here.
+3. Make the existing Lab 3, Lab 4, and Lab 6 source modules available in a
+   clean checkout, then rerun CI. The first remote run failed during test
+   collection because `labs.lab3` and `labs.lab4` are absent from GitHub's
+   checkout. The local red-gate text output is not the required screenshot.
 
 Final local verification: the full offline test suite passed (43 tests), the
 Lab 7 tests passed (10 tests), Ruff passed, and the isolated-cache golden gate
@@ -118,4 +120,10 @@ bundle is in `labs/lab7/offline_cache/calls.sqlite3`; it contains actual
 responses and embeddings selected from the development cache, not generated
 placeholder rows. A separate controlled red-gate probe also exited non-zero;
 its output is in [the red-gate evidence](reports/lab7_gate_red_probe.txt).
-GitHub Actions has not yet been run remotely.
+GitHub Actions run
+[37962116366](https://github.com/punitgauttam/aiip-lab-submission/actions/runs/37962116366)
+on commit `916ed3e2` passed dependency installation and cache validation, then
+failed collecting the Lab 7 tests with `ModuleNotFoundError` for `labs.lab3`
+and `labs.lab4`; lint and gate steps were skipped. Those source directories
+exist only in the local untracked checkout and were not added or pushed.
+There is no remote green run or red-build screenshot.
