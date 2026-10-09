@@ -1,0 +1,18 @@
+Controlled local red-gate demonstration
+
+Command:
+PowerShell:
+$env:AIP_OFFLINE='1'; & '.venv\Scripts\python.exe' labs\lab7\gate.py --config reports\lab7_red_gate_probe.yml
+
+The temporary probe config required correctness >= 0.99. It was removed after
+the run; labs/lab7/thresholds.yml was not modified.
+
+Observed output:
+metric            value            gate  status
+---------------------------------------------------
+correctness      0.7500         >= 0.99  FAIL
+
+GATE FAILED:
+  correctness: 0.75 violates >= 0.99
+
+Exit code: 1
