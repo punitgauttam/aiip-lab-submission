@@ -27,7 +27,7 @@ measured, not manually entered. The unchanged starter limits are shown.
 | Refusal precision | 1.0000 | >= 0.75 | Pass |
 | Retrieval hit rate @ 5 | 1.0000 | >= 0.85 | Pass |
 | Cost/query, offline replay | $0.0000 | <= $0.010 | Pass, cache-only |
-| Gate p95 latency | 7.86 ms | <= 6,000 ms | Pass, offline replay |
+| Gate p95 latency | 8.72 ms | <= 6,000 ms | Pass, offline replay |
 
 The earlier gate returned false refusals for Q23 and Q44 because its dense
 top-five chunks did not present the relevant evidence together: Q23 included
@@ -113,17 +113,19 @@ Require human review for consequential decisions.
    collection because `labs.lab3` and `labs.lab4` are absent from GitHub's
    checkout. The local red-gate text output is not the required screenshot.
 
-Final local verification: the full offline test suite passed (43 tests), the
-Lab 7 tests passed (10 tests), Ruff passed, and the isolated-cache golden gate
+Final local verification: the full offline test suite passed (44 tests), the
+Lab 7 tests passed (11 tests), Ruff passed, and the isolated-cache golden gate
 passed all eight unchanged thresholds across 45 cases. The genuine cache
 bundle is in `labs/lab7/offline_cache/calls.sqlite3`; it contains actual
 responses and embeddings selected from the development cache, not generated
 placeholder rows. A separate controlled red-gate probe also exited non-zero;
 its output is in [the red-gate evidence](reports/lab7_gate_red_probe.txt).
-GitHub Actions run
+GitHub Actions runs
 [37962116366](https://github.com/punitgauttam/aiip-lab-submission/actions/runs/37962116366)
-on commit `916ed3e2` passed dependency installation and cache validation, then
-failed collecting the Lab 7 tests with `ModuleNotFoundError` for `labs.lab3`
-and `labs.lab4`; lint and gate steps were skipped. Those source directories
-exist only in the local untracked checkout and were not added or pushed.
-There is no remote green run or red-build screenshot.
+and
+[37964718528](https://github.com/punitgauttam/aiip-lab-submission/actions/runs/37964718528)
+passed dependency installation and cache validation, then failed collecting
+the Lab 7 tests with `ModuleNotFoundError` for `labs.lab3` and `labs.lab4`;
+lint and gate steps were skipped. Those source directories exist only in the
+local untracked checkout and were not added or pushed. There is no remote
+green run or red-build screenshot.

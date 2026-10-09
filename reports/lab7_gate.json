@@ -7,7 +7,7 @@
     "refusal_precision": 1.0,
     "hit_rate_at_5": 1.0,
     "cost_per_query_usd": 0.0,
-    "p95_latency_ms": 7.861300007789396
+    "p95_latency_ms": 8.723399994778447
   },
   "rows": [
     {
@@ -21,7 +21,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 7.861300007789396
+      "latency_ms": 8.01849999697879
     },
     {
       "id": "Q02",
@@ -34,7 +34,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 4.390100002638064
+      "latency_ms": 4.4027999974787235
     },
     {
       "id": "Q03",
@@ -47,7 +47,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 3.7789000052725896
+      "latency_ms": 4.645500011974946
     },
     {
       "id": "Q04",
@@ -60,7 +60,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 3.6475000088103116
+      "latency_ms": 4.6424000029219314
     },
     {
       "id": "Q05",
@@ -73,7 +73,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 4.457900009583682
+      "latency_ms": 4.459100004169159
     },
     {
       "id": "Q06",
@@ -86,7 +86,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 4.145300001255237
+      "latency_ms": 5.201100007980131
     },
     {
       "id": "Q07",
@@ -99,7 +99,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 4.8359000065829605
+      "latency_ms": 3.2624000014038756
     },
     {
       "id": "Q08",
@@ -112,7 +112,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 3.448999996180646
+      "latency_ms": 4.711500005214475
     },
     {
       "id": "Q09",
@@ -125,7 +125,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 3.9649999962421134
+      "latency_ms": 3.3878999965963885
     },
     {
       "id": "Q10",
@@ -138,7 +138,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 4.2689000110840425
+      "latency_ms": 18.093200007569976
     },
     {
       "id": "Q11",
@@ -151,7 +151,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 3.7223000108497217
+      "latency_ms": 6.139899996924214
     },
     {
       "id": "Q12",
@@ -164,7 +164,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 3.2693999964976683
+      "latency_ms": 3.6896999954478815
     },
     {
       "id": "Q13",
@@ -177,7 +177,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 3.3967000053962693
+      "latency_ms": 4.6934999991208315
     },
     {
       "id": "Q14",
@@ -190,7 +190,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 3.2669999927747995
+      "latency_ms": 3.720500011695549
     },
     {
       "id": "Q15",
@@ -203,7 +203,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 3.7800999998580664
+      "latency_ms": 5.588299987721257
     },
     {
       "id": "Q16",
@@ -216,7 +216,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 3.850399996736087
+      "latency_ms": 3.8401000056182966
     },
     {
       "id": "Q17",
@@ -229,7 +229,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 3.648900004918687
+      "latency_ms": 4.720499986433424
     },
     {
       "id": "Q18",
@@ -242,7 +242,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 3.2928000000538304
+      "latency_ms": 3.3632999984547496
     },
     {
       "id": "Q19",
@@ -255,7 +255,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 3.777400008402765
+      "latency_ms": 3.697499996633269
     },
     {
       "id": "Q20",
@@ -268,7 +268,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 2.9676999984076247
+      "latency_ms": 5.079399998066947
     },
     {
       "id": "Q21",
@@ -281,7 +281,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 3.9252999995369464
+      "latency_ms": 2.8168999997433275
     },
     {
       "id": "Q22",
@@ -294,7 +294,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 4.732800007332116
+      "latency_ms": 4.047999987960793
     },
     {
       "id": "Q23",
@@ -307,7 +307,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 8.884599999873899
+      "latency_ms": 9.098800001083873
     },
     {
       "id": "Q24",
@@ -320,7 +320,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 4.404500010423362
+      "latency_ms": 8.038799991481937
     },
     {
       "id": "Q25",
@@ -333,7 +333,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 3.2924999977694824
+      "latency_ms": 3.2667000050423667
     },
     {
       "id": "Q26",
@@ -346,7 +346,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 3.6951999936718494
+      "latency_ms": 4.414399998495355
     },
     {
       "id": "Q27",
@@ -359,7 +359,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 3.6186999932397157
+      "latency_ms": 3.6731999862240627
     },
     {
       "id": "Q28",
@@ -372,7 +372,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 3.6108999920543283
+      "latency_ms": 2.852499994332902
     },
     {
       "id": "Q29",
@@ -385,7 +385,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 3.3221000048797578
+      "latency_ms": 4.749800005811267
     },
     {
       "id": "Q30",
@@ -398,7 +398,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 3.3241999917663634
+      "latency_ms": 3.143499998259358
     },
     {
       "id": "Q31",
@@ -411,7 +411,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 5.340000003343448
+      "latency_ms": 2.643800005898811
     },
     {
       "id": "Q32",
@@ -424,7 +424,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 4.41809999756515
+      "latency_ms": 4.558000000542961
     },
     {
       "id": "Q33",
@@ -437,7 +437,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 4.318299994338304
+      "latency_ms": 3.6487000033957884
     },
     {
       "id": "Q34",
@@ -450,7 +450,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 4.678800003603101
+      "latency_ms": 2.989999993587844
     },
     {
       "id": "Q35",
@@ -463,7 +463,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 4.627000002074055
+      "latency_ms": 4.376099997898564
     },
     {
       "id": "Q36",
@@ -476,7 +476,7 @@
       "unanswerable": true,
       "hit_rate_at_5": 0.0,
       "cost_usd": 0.0,
-      "latency_ms": 6.699500008835457
+      "latency_ms": 5.706500000087544
     },
     {
       "id": "Q37",
@@ -489,7 +489,7 @@
       "unanswerable": true,
       "hit_rate_at_5": 0.0,
       "cost_usd": 0.0,
-      "latency_ms": 7.135400010156445
+      "latency_ms": 7.626699996762909
     },
     {
       "id": "Q38",
@@ -502,7 +502,7 @@
       "unanswerable": true,
       "hit_rate_at_5": 0.0,
       "cost_usd": 0.0,
-      "latency_ms": 9.92680000490509
+      "latency_ms": 8.365600006072782
     },
     {
       "id": "Q39",
@@ -515,7 +515,7 @@
       "unanswerable": true,
       "hit_rate_at_5": 0.0,
       "cost_usd": 0.0,
-      "latency_ms": 7.3162000044249
+      "latency_ms": 6.237900000996888
     },
     {
       "id": "Q40",
@@ -528,7 +528,7 @@
       "unanswerable": true,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 5.1737000030698255
+      "latency_ms": 8.723399994778447
     },
     {
       "id": "Q41",
@@ -541,7 +541,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 4.505299992160872
+      "latency_ms": 2.977399999508634
     },
     {
       "id": "Q42",
@@ -554,7 +554,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 3.299100004369393
+      "latency_ms": 2.672500006156042
     },
     {
       "id": "Q43",
@@ -567,7 +567,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 3.895600006217137
+      "latency_ms": 4.175800000666641
     },
     {
       "id": "Q44",
@@ -580,7 +580,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 6.400199999916367
+      "latency_ms": 5.0432999996701255
     },
     {
       "id": "Q45",
@@ -593,7 +593,7 @@
       "unanswerable": false,
       "hit_rate_at_5": 1.0,
       "cost_usd": 0.0,
-      "latency_ms": 3.927900004782714
+      "latency_ms": 4.822999995667487
     }
   ]
 }

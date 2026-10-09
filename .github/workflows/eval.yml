@@ -21,9 +21,11 @@ jobs:
         run: python -m pip install -r requirements.txt
       - name: Verify committed offline model cache
         run: python -c "from aip.cache import stats; counts = stats(); print(counts); assert counts.get('embed', 0) >= 209 and counts.get('chat', 0) > 0, 'Lab 7 offline cache is incomplete.'"
+      - name: Verify Lab 7 prior-lab interfaces
+        run: python -m pytest tests/test_lab7_dependencies.py -q
       - name: Run Lab 7 tests
         run: python -m pytest tests/test_lab7_service.py tests/test_lab7_pipeline.py
       - name: Lint Lab 7
-        run: python -m ruff check labs/lab7/service.py labs/lab7/pipeline.py labs/lab7/prepare_offline_cache.py labs/lab7/ui.py labs/lab7/dashboard.py labs/lab7/gate.py tests/test_lab7_service.py tests/test_lab7_pipeline.py
+        run: python -m ruff check labs/lab7/service.py labs/lab7/pipeline.py labs/lab7/prepare_offline_cache.py labs/lab7/ui.py labs/lab7/dashboard.py labs/lab7/gate.py tests/test_lab7_service.py tests/test_lab7_pipeline.py tests/test_lab7_dependencies.py
       - name: Run golden-set regression gate
         run: python labs/lab7/gate.py
