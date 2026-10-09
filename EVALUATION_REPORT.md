@@ -126,6 +126,12 @@ and
 [37964718528](https://github.com/punitgauttam/aiip-lab-submission/actions/runs/37964718528)
 passed dependency installation and cache validation, then failed collecting
 the Lab 7 tests with `ModuleNotFoundError` for `labs.lab3` and `labs.lab4`;
-lint and gate steps were skipped. Those source directories exist only in the
-local untracked checkout and were not added or pushed. There is no remote
-green run or red-build screenshot.
+lint and gate steps were skipped. After adding those source modules and the
+existing Ruff configuration, Actions run
+[37967712134](https://github.com/punitgauttam/aiip-lab-submission/actions/runs/37967712134)
+completed successfully: dependency preflight (1 passed), Lab 7 tests (10
+passed), Ruff, and the 45-case gate all passed. Remote offline gate metrics
+were correctness 0.7875, faithfulness 0.9778, citation validity 1.0000,
+refusal recall/precision 1.0000, hit rate @5 1.0000, cost/query $0.0000, and
+p95 3.9219 ms. The local red-gate text output is not the rubric-required
+screenshot; no remote red-build screenshot has been captured.
