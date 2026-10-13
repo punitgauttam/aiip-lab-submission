@@ -69,7 +69,7 @@ def answer_with_refusal_recovery(
     retriever: Lab7Retriever,
     *,
     k: int = 12,
-    final_k: int = 5,
+    final_k: int = 1,
     reranker: Any = None,
     tier: str = "MAIN",
 ) -> Answer:
