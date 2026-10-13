@@ -85,9 +85,9 @@ total. The two-request stage sample was:
 
 The sample size is two, so p95 is the maximum observation, not a stable SLO
 estimate. Generation and validation are combined in the current trace sample;
-they are not independently measured. The local offline gate recorded a p95 of 7.7848 ms; the successful remote
-restoration run measured 3.0231 ms. These cache-backed results do not
-establish uncached live latency. The service
+they are not independently measured. The local offline gate recorded a p95 of
+7.7848 ms; the successful remote restoration run measured 3.0231 ms. These
+cache-backed results do not establish uncached live latency. The service
 buffers until citation validation, then streams answer chunks and citations;
 this protects users from unvalidated text but delays TTFT until generation and
 validation finish.
@@ -98,7 +98,9 @@ Do not rely on Aurora alone for coverage, claims, or financial decisions.
 Retrieval can miss answerable multi-hop or paraphrased questions, and semantic
 reuse can transfer an answer to a subtly different request. The policy text
 may not resolve a user's circumstances; a human must inspect the cited
-passages before acting.
+passages before acting. The preserved traces contain slow evaluation spans
+associated with provider rate limits, but no real slow `/ask` request was
+recorded; the runsheet's service-level slow-request diagnosis is unverified.
 
 ## 7. What to do next, ranked by expected value
 
@@ -108,7 +110,10 @@ passages before acting.
 2. **Measure uncached latency and cost under representative traffic with a
    fixed spend cap.** Expected value: high decision value; determine whether
    the live service meets the 6-second p95 and $0.01/query limits, which
-   cache-backed measurements cannot establish.
+   cache-backed measurements cannot establish. Generation plus validation
+   was the largest stage in the small cached sample; measure it separately,
+   then test reducing generator context against the unchanged quality gate
+   before choosing a production optimization.
 3. **Add independently labeled paraphrase and multi-hop cases to the golden
    set.** Expected value: medium quality value; make retrieval blind spots
    visible in the gate rather than relying on the current 45-question sample.
@@ -116,4 +121,5 @@ passages before acting.
 Local verification after restoration: 11 Lab 7 tests passed, Ruff passed, and
 the offline gate passed all eight thresholds. CI independently passed the
 cache check, prior-lab interface check, Lab 7 tests, Ruff, and the offline
-gate on the restored temporary branch.
+gate on the restored temporary branch. The final report-and-evidence commit
+also passed [Actions run 38449638390](https://github.com/punitgauttam/aiip-lab-submission/actions/runs/38449638390).
