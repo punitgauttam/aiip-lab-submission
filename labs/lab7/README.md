@@ -67,6 +67,45 @@ A service with no guards is not shippable, and this is where marks are lost.
 503 with a `Retry-After`, not a 500 with a stack trace. A budget exhaustion
 gets a 429. Test all three with `curl`.
 
+Use `curl.exe` from PowerShell with the service running at `127.0.0.1:8000`.
+The invalid question below is shorter than the three-character minimum in
+`AskRequest`, so FastAPI returns 422:
+
+```powershell
+curl.exe -i -X POST http://127.0.0.1:8000/ask `
+  -H "Content-Type: application/json" `
+  --data-binary '{"question":"x"}'
+```
+
+For a 503 without contacting a model provider, start the service with the
+committed offline cache and offline mode enabled:
+
+```powershell
+$env:AIP_CACHE_DIR = "labs\lab7\offline_cache"
+$env:AIP_OFFLINE = "1"
+python -m uvicorn labs.lab7.service:app --port 8000
+```
+
+In another terminal, ask a question absent from that cache. The service maps
+the resulting `CacheMiss` to 503 and includes `Retry-After: 10`:
+
+```powershell
+curl.exe -i -X POST http://127.0.0.1:8000/ask `
+  -H "Content-Type: application/json" `
+  --data-binary '{"question":"A question absent from the offline cache?"}'
+```
+
+A 429 is returned only when `/ask` exceeds its `$0.01` request budget. The
+public request schema has no switch that forces exhaustion. This valid tools
+request exercises that path only if its model/tool work actually exceeds the
+budget; use a controlled backend, since it may make model calls:
+
+```powershell
+curl.exe -i -X POST http://127.0.0.1:8000/ask `
+  -H "Content-Type: application/json" `
+  --data-binary '{"question":"Summarize the policy exclusions and exceptions.","mode":"tools"}'
+```
+
 **A4.** Add the Streamlit UI (`labs/lab7/ui.py`) so the demo is not `curl`.
 It must show the citations as expandable source text — grounding is only
 useful if the user can check it.
