@@ -1,137 +1,119 @@
 # Lab 7 Evaluation Report
 
-## 1. What the system does
+## 1. What it does
 
-The Aurora assistant searches the policy corpus, answers through the Lab 4 RAG
-pipeline (including the active Lab 5 answer-format and citation checks), and
-returns expandable source excerpts. A FastAPI service exposes answers, health,
-metrics, and buffered server-sent events. Tool mode reuses the Lab 6 agent with
-all five defenses, read-only tools, and refund confirmation denied.
+Aurora answers questions using the health-policy documents, shows the passages
+behind each answer, and says when it cannot find enough evidence. It records
+service activity and offers a read-only tool mode; important coverage, claims,
+and financial decisions still need a person to check the source.
 
-The current index builder is the existing Lab 4 `build_retriever()` (dense
-Markdown chunks of size 800). No saved Lab 3 sweep-winner artifact was present,
-so this report does not claim that this configuration was the Lab 3 winner.
+## 2. How well it works
 
-## 2. Golden-set results
-
-Offline gate run: 45 golden cases, using the isolated 4.2 MB Lab 7 cache
-(143 genuine chat responses and 209 genuine embedding rows). Values below are
-measured, not manually entered. The unchanged starter limits are shown.
+The offline evaluation covers 45 golden questions (40 answerable, five
+unanswerable) and uses the committed 4.2 MB cache: 143 genuine model responses
+and 209 embedding rows. The limits below are unchanged.
 
 | Metric | Measured | Limit | Result |
 |---|---:|---:|---|
-| Correctness (answerable cases) | 0.7875 | >= 0.75 | Pass |
+| Correctness, answerable cases | 0.7875 | >= 0.75 | Pass |
 | Faithfulness | 0.9778 | >= 0.90 | Pass |
 | Citation validity | 1.0000 | >= 0.98 | Pass |
 | Refusal recall | 1.0000 | >= 0.80 | Pass |
 | Refusal precision | 1.0000 | >= 0.75 | Pass |
 | Retrieval hit rate @ 5 | 1.0000 | >= 0.85 | Pass |
 | Cost/query, offline replay | $0.0000 | <= $0.010 | Pass, cache-only |
-| Gate p95 latency | 8.72 ms | <= 6,000 ms | Pass, offline replay |
+| Gate p95, local offline replay | 7.7848 ms | <= 6,000 ms | Pass |
 
-The earlier gate returned false refusals for Q23 and Q44 because its dense
-top-five chunks did not present the relevant evidence together: Q23 included
-teleconsultation and unrelated Bronze sections, while Q44 retrieved the Silver
-identifier chunk but not its adjacent sum-insured section. Lab 4 correctly
-fell back to refusal when those contexts could not support an answer. That
-run had two false refusals; the current run has zero, with refusal precision
-improving from 0.7143 to 1.0000 under the same threshold.
+The [saved per-case evaluation](reports/lab7_gate.json) records 17 of 40
+answerable cases with partial normalized judge scores of 0.5; none scored zero.
+All five unanswerable cases were refused and no invalid citations were
+recorded. These scores indicate remaining answer-quality work despite the
+aggregate gate passing.
 
-Lab 7 now retries only a validated refusal using the top BM25 evidence. If that
-hit is a short document-identifier chunk, it includes the next section from
-that same document. The retry still uses Lab 4 citation validation, and an
-unvalidated or refused retry preserves the original refusal. No case IDs or
-thresholds are special-cased. Q23 now returns a cautious, cited partial answer
-that says the source does not specifically establish physiotherapy coverage;
-its normalized judge score is 0.5, so the uncertainty remains visible. Q44
-answers the sum-insured options with two citations. All five unanswerable cases
-remain refused, with zero false refusals and no invalid citations.
+**D3 evidence.** On temporary branch `lab7-red-build-evidence-20261013`,
+regression commit `fa80a44d5f529048585c05da614b8834378f277d` set `final_k=1`.
+The genuine [Actions run 38444132522](https://github.com/punitgauttam/aiip-lab-submission/actions/runs/38444132522)
+completed setup, cache verification, tests, and lint, then failed only at the
+golden-set gate: correctness 0.6750 (< 0.75), refusal precision 0.7143
+(< 0.75), and hit rate @5 0.8250 (< 0.85). The regression was reverted in
+`6e786325864d3fb6b90989b832582c74c21f7177`; the subsequent
+[Actions run 38446792601](https://github.com/punitgauttam/aiip-lab-submission/actions/runs/38446792601)
+passed, including the gate. The genuine run-summary screenshot is
+[reports/lab7_red_build.png](reports/lab7_red_build.png). GitHub's signed-out
+page does not show job logs; the metric values above were verified from the
+Actions job logs. `main` and `origin/main` remain at `884be825`.
 
-## 3. Cache and service measurements
+## 3. Where it fails
 
-Four different-answer question pairs were embedded. Their cosine similarities
-were 0.8782 (Silver/Gold room limits), 0.8479 (Bronze/Gold maternity), 0.9294
-(claim deadline after discharge/after admission), and 0.7194 (cataract/no-claim
-bonus). With the actual cache lookup, the 0.9294 pair hit at threshold 0.92 and
-did not hit at 0.93 or 0.95. Four answer-equivalent paraphrases scored 0.7681,
-0.8849, 0.9252, and 0.8456. Thus, this sample has no threshold that accepts the
-tested paraphrase at 0.9252 without also admitting the 0.9294 wrong-intent
-match. The implementation conservatively retains 0.95; semantic hits were not
-observed for this sample, while exact response caching was verified.
+Q23 remains a cautious, cited partial answer about physiotherapy coverage; its
+normalized correctness score is 0.5 because the policy text does not establish
+eligibility clearly. The refusal-recovery path fixed the earlier false
+refusals on Q23 and Q44 by retrying a refusal with focused BM25 evidence and,
+for a short identifier chunk, its following section. It retains the original
+refusal if the retry still lacks validated support.
 
-The service starts with an index of 164 chunks. In a two-request isolated
-offline sample, `/ask` returned 200 with validated citations for Q23 and Q44;
-the individual reported latencies were 23.19 and 18.60 ms. `/metrics`
-reported p50/p95/p99 of 18.97/25.42/25.42 ms, zero cost, zero errors, and
-zero response-cache hits. A prior single exact-cache repeat took 0.07 ms;
-this is not a cached p95. A buffered SSE request on a model-cache hit
-measured 17.69 ms to first token and 18.36 ms total. These are cache-backed
-local timings, not live-provider SLO evidence.
+The semantic-cache test exposed a wrong-intent match at cosine similarity
+0.9294 and a useful paraphrase at 0.9252. A threshold of 0.92 admitted the
+wrong-intent match; 0.93 rejected both. The implementation keeps 0.95, which
+avoided wrong hits in this sample but produced no observed semantic hits.
+Exact-response caching was verified. This is a small sample, not a general
+threshold guarantee.
 
-The traced Q23/Q44 requests in a separate two-request sample yielded:
+## 4. What it costs
+
+The isolated offline gate costs $0/query because model calls are replayed from
+cache. A previously measured mixed-cache run cost $0.0002098/query. If that
+same cache-hit/recovery mix persisted, the projection is $0.21 per 1,000
+queries and $765.77/year at 10,000 queries/day. This is not an uncached
+provider estimate or deployment budget; steady-state live cost is unknown.
+
+## 5. How fast it is
+
+The two-request local service sample returned validated answers for Q23 and
+Q44. `/metrics` reported p50/p95/p99 of 18.97/25.42/25.42 ms; a buffered SSE
+request on a model-cache hit measured 17.69 ms to first token and 18.36 ms
+total. The two-request stage sample was:
 
 | Stage | p50 | p95 |
 |---|---:|---:|
-| Query embedding (cache lookup) | 0.01 ms | 0.01 ms |
+| Query embedding, cache lookup | 0.01 ms | 0.01 ms |
 | Dense retrieval | 2.36 ms | 6.47 ms |
 | Reranking | Not used | Not used |
-| Generate + validate | 9.53 ms | 10.63 ms |
+| Generate and validate | 9.53 ms | 10.63 ms |
 | BM25 refusal recovery | 1.81 ms | 3.11 ms |
 | End-to-end | 18.97 ms | 25.42 ms |
 
-Sample sizes are two; p95 here is the maximum observation, not a stable SLO
-estimate. Profile live generation under representative traffic before choosing
-production latency optimizations.
+The sample size is two, so p95 is the maximum observation, not a stable SLO
+estimate. Generation and validation are combined in the current trace sample;
+they are not independently measured. The local offline gate recorded a p95 of 7.7848 ms; the successful remote
+restoration run measured 3.0231 ms. These cache-backed results do not
+establish uncached live latency. The service
+buffers until citation validation, then streams answer chunks and citations;
+this protects users from unvalidated text but delays TTFT until generation and
+validation finish.
 
-Streaming buffers until citation validation, then emits answer chunks followed
-by citations. This prevents clients displaying unvalidated text, but sacrifices
-live-generation TTFT. Stage and TTFT values above are cache-backed only.
+## 6. What it is not safe for
 
-## 4. Cost arithmetic and limitations
+Do not rely on Aurora alone for coverage, claims, or financial decisions.
+Retrieval can miss answerable multi-hop or paraphrased questions, and semantic
+reuse can transfer an answer to a subtly different request. The policy text
+may not resolve a user's circumstances; a human must inspect the cited
+passages before acting.
 
-The isolated offline run measured $0/query because every model operation was
-replayed from cache. The first full gate after recovery, run against a mixed
-development cache, measured $0.0002098/query and 3,419.31 ms p95. If that
-same cache-hit/recovery mix persisted, the projection is $0.21 per 1,000
-queries and $765.77/year at 10,000 queries/day (3.65 million/year). This is a
-cache-dependent projection, not an uncached provider estimate or deployment
-budget; live uncached p95 and steady-state cost are not established.
+## 7. What to do next, ranked by expected value
 
-Do not rely on this assistant alone for coverage, claims, or financial
-decisions. Retrieval can miss answerable multi-hop or paraphrased questions,
-and semantic reuse can transfer an answer to a subtly different request.
-Require human review for consequential decisions.
+1. **Human-review Q23 and clarify the policy evidence if needed.** Expected
+   value: high safety value; establish whether the partial answer is the right
+   interpretation before presenting it as coverage guidance.
+2. **Measure uncached latency and cost under representative traffic with a
+   fixed spend cap.** Expected value: high decision value; determine whether
+   the live service meets the 6-second p95 and $0.01/query limits, which
+   cache-backed measurements cannot establish.
+3. **Add independently labeled paraphrase and multi-hop cases to the golden
+   set.** Expected value: medium quality value; make retrieval blind spots
+   visible in the gate rather than relying on the current 45-question sample.
 
-## 5. Ranked next steps
-
-1. Evaluate the cautious Q23 partial answer with a human label; decide whether
-   the corpus should state physiotherapy eligibility more explicitly.
-2. Measure uncached latency and per-query cost under representative live
-   traffic; current headline timings are cache-backed.
-3. Make the existing Lab 3, Lab 4, and Lab 6 source modules available in a
-   clean checkout, then rerun CI. The first remote run failed during test
-   collection because `labs.lab3` and `labs.lab4` are absent from GitHub's
-   checkout. The local red-gate text output is not the required screenshot.
-
-Final local verification: the full offline test suite passed (44 tests), the
-Lab 7 tests passed (11 tests), Ruff passed, and the isolated-cache golden gate
-passed all eight unchanged thresholds across 45 cases. The genuine cache
-bundle is in `labs/lab7/offline_cache/calls.sqlite3`; it contains actual
-responses and embeddings selected from the development cache, not generated
-placeholder rows. A separate controlled red-gate probe also exited non-zero;
-its output is in [the red-gate evidence](reports/lab7_gate_red_probe.txt).
-GitHub Actions runs
-[37962116366](https://github.com/punitgauttam/aiip-lab-submission/actions/runs/37962116366)
-and
-[37964718528](https://github.com/punitgauttam/aiip-lab-submission/actions/runs/37964718528)
-passed dependency installation and cache validation, then failed collecting
-the Lab 7 tests with `ModuleNotFoundError` for `labs.lab3` and `labs.lab4`;
-lint and gate steps were skipped. After adding those source modules and the
-existing Ruff configuration, Actions run
-[37967712134](https://github.com/punitgauttam/aiip-lab-submission/actions/runs/37967712134)
-completed successfully: dependency preflight (1 passed), Lab 7 tests (10
-passed), Ruff, and the 45-case gate all passed. Remote offline gate metrics
-were correctness 0.7875, faithfulness 0.9778, citation validity 1.0000,
-refusal recall/precision 1.0000, hit rate @5 1.0000, cost/query $0.0000, and
-p95 3.9219 ms. The local red-gate text output is not the rubric-required
-screenshot; no remote red-build screenshot has been captured.
+Local verification after restoration: 11 Lab 7 tests passed, Ruff passed, and
+the offline gate passed all eight thresholds. CI independently passed the
+cache check, prior-lab interface check, Lab 7 tests, Ruff, and the offline
+gate on the restored temporary branch.

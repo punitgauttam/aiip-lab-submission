@@ -18,12 +18,14 @@ Use Python 3.11–3.14. From the repository root in PowerShell:
 py -3.11 -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
+$env:AIP_CACHE_DIR = "labs\lab7\offline_cache"
 $env:AIP_OFFLINE = "1"
 python -m uvicorn labs.lab7.service:app --port 8000
 ```
 
-The offline mode needs the committed `.aip_cache/calls.sqlite3` model-call
-cache. It returns a clear cache-miss error rather than contacting a provider.
+The Lab 7 offline cache is at `labs/lab7/offline_cache/calls.sqlite3`.
+Offline mode returns a clear cache-miss error rather than contacting a
+provider.
 With the service running, open a second terminal in the repository root:
 
 ```powershell
